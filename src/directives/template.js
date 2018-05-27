@@ -1,13 +1,12 @@
-import keyboard from "../js/keyboard";
-import templateMaker from "../../templateMaker";
-import utils from "../js/utils";
-import context from "../js/context";
-const {clipboard, remote} = window.require('electron');
-const path = remote.require("path");
-const jsBeautify = remote.require("js-beautify");
-const fse = remote.require("fs-extra");
+const keyboard = require("../js/keyboard");
+const templateMaker = require("../../templateMaker");
+const utils = require("../js/utils");
+const context = require("../js/context");
+const path = require("path");
+const jsBeautify = require("js-beautify");
+const fse = require("fs-extra");
 
-export default {
+module.exports = {
     validate:/\$template`([\s\S]+?)`\?(?:file=(\S+))?/,
     handle(result){
         let
@@ -73,7 +72,7 @@ export default {
             //     context.error("请指定$params 您可以将 $test 直接改为 $params");
             //     return;
             // }
-            let fileAddr = path.join(remote.getGlobal("__dirname"), "../plugins/template/single-file", file);
+            let fileAddr = path.resolve("./template", file);
             result = templateMaker.make({
                 template: templateOption.template,
                 params: Object.entries(templateOption.params || {}).reduce((prev, cur) => {

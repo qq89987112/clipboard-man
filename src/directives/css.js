@@ -1,8 +1,7 @@
-import keyboard from "../js/keyboard";
-const {clipboard, remote} = window.require('electron');
-const glob = remote.require("glob").sync;
-const {parse,stringify} = remote.require("himalaya");
-const scssfmt = remote.require('scssfmt')
+const keyboard = require("../js/keyboard");
+const glob = require("glob").sync;
+const {parse,stringify} = require("himalaya");
+const scssfmt = require('scssfmt')
 
 /**
  * test
@@ -16,7 +15,7 @@ const scssfmt = remote.require('scssfmt')
  * 
  * 
  */
-export default {
+module.exports = {
     validate:/^\$css`([\s\S]+?)`/,
     handle(result){
 

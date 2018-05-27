@@ -1,9 +1,9 @@
-import keyboard from "../js/keyboard";
-import store from "../../../store";
-import utils from "../js/utils";
-import global from "../js/global";
+const keyboard = require("../js/keyboard");
+const store = require("../../../store");
+const utils = require("../js/utils");
+const global = require("../js/global");
 
-export default {
+module.exports = {
     validate:/^\$global.+/,
     handle(result){
         let [name,params={}] = utils.parseLineToObject(result[0]);

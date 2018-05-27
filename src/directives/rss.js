@@ -1,7 +1,6 @@
-import keyboard from "../js/keyboard";
-import utils from "../js/utils";
-import rssParser from "rss-parser";
-const {clipboard, remote} = window.require('electron');
+const keyboard = require("../js/keyboard");
+const utils = require("../js/utils");
+const rssParser = require("rss-parser");
 
 /**
  * test
@@ -28,7 +27,7 @@ const {clipboard, remote} = window.require('electron');
 const instance = new rssParser();
 const parseString = instance.parseString.bind(instance);
 
-export default {
+module.exports = {
     validate:/(?:^\$rss`([\s\S]+?)`)|(?:^\$rss[^`\n]*)/,
     handle(result){
         let 

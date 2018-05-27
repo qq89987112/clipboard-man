@@ -1,4 +1,4 @@
-import keyboard from "../js/keyboard";
+const keyboard = require("../js/keyboard");
 
 export default {
     validate:/^\$stock\.(.+)/,

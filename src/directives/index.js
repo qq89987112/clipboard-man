@@ -1,21 +1,21 @@
-import api from "./api"
-import css from "./css"
-import notice from "./notice"
-import notices from "./notices"
-import stock from "./stock"
-import template from "./template"
-import templates from "./templates"
-import global from "./global"
-import rss from "./rss"
+// const api = require("./api")
+// const css = require("./css")
+// const notice = require("./notice")
+// const notices = require("./notices")
+// const stock = require("./stock")
+// const template = require("./template")
+// const templates = require("./templates")
+// const global = require("./global")
+// const rss = require("./rss")
 
-export default {
-    api,
-    css,
-    notice,
-    notices,
-    stock,
-    template,
-    templates,
-    global,
-    rss
+module.exports =  {
+    // api,
+    // css,
+    // notice,
+    // notices,
+    // stock,
+    // template,
+    // templates,
+    // global,
+    // rss
 }

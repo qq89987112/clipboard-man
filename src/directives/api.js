@@ -1,11 +1,10 @@
-import utils from "../js/utils";
-import global from "../js/global";
-import keyboard from "../js/keyboard";
-const {clipboard, remote} = window.require('electron');
-const fse = remote.require("fs-extra");
-const path = remote.require("path");
+const utils = require("../js/utils")
+const global = require("../js/global")
+const keyboard = require("../js/keyboard")
+const fse = require("fs-extra");
+const path = require("path");
 
-export default {
+module.exports = {
     validate:/^\$api\?(.+)/,
     handle(result){
         let [name,params={}] = utils.parseLineToObject(result[0]);

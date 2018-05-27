@@ -1,8 +1,8 @@
-import keyboard from "../js/keyboard";
-import store from "../../../store";
-import utils from "../js/utils";
+const keyboard = require("../js/keyboard");
+const store = require("../../../store");
+const utils = require("../js/utils");
 
-export default {
+module.exports = {
     validate:/\$\$([0-19]).+/,
     handle(result){
         let [name,params] = utils.parseLineToObject(result[0]);

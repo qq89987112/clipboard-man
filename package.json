@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "fs-extra": "^6.0.1",
+    "glob": "^7.1.2",
+    "himalaya": "^1.1.0",
+    "iohook": "^0.1.16",
+    "js-beautify": "^1.7.5",
+    "scssfmt": "^1.0.5",
+    "win-clipboard": "^0.0.6"
+  },
+  "scripts": {
+    "start": "node ./src/index.js"
+  }
+}

@@ -1,18 +1,16 @@
-import store from "../../../store/index";
+const child_process = require("child_process");
+const clipboard = require( 'win-clipboard' );
 
-const {clipboard, remote} = window.require('electron');
-const child_process = remote.require("child_process");
-
-export default {
+module.exports =  {
     backout(){
         this.sendKeys("^{z}")
     },
     sendKeys(keys){
-        child_process.execSync(`wscript ./main/sendKeys.vbs "${keys}"`);
+        child_process.execSync(`wscript ./src/vbs/sendKeys.vbs "${keys}"`);
     },
     output(message){
-        clipboard.writeText(message);
-        child_process.execSync("wscript ./main/paste.vbs");
+        clipboard.setText(message);
+        child_process.execSync("wscript ./src/vbs/paste.vbs");
     },
     /**
      *   keyboard.options(`文件路径已经存在文件:${fileAddr},是否继续？`,["是","否"]).then((selects)=>{
