@@ -21,7 +21,7 @@ const transporter = config.email ? nodemailer.createTransport({
 
 
 const sendMail = (subject,html,callBack=()=>{})=>{
-    if(!transporter.$isSending){
+    if(!transporter.$isSending&&!transporter.$diable){
         transporter.$isSending = true;
         transporter.sendMail({
             ...emailOptions,
@@ -31,11 +31,10 @@ const sendMail = (subject,html,callBack=()=>{})=>{
             transporter.$isSending = false;
             if(error){
                 console.log('邮件发送失败：'+error);
-                callBack(error);
             }else{
                 console.log('Message sent: ' + info.response);
-                callBack();
             }
+            callBack(error);
         });
     }
   
@@ -118,12 +117,12 @@ module.exports =  {
                         console.log(html)
                         if(v<=min){
                             subject = `请注意,代码${code}的品种已经跌出预设min:${min},值为:${v}`;
-                            sendMail(subject,html);
-                            keyboard.messageBox(subject,"警告");
+                            sendMail(subject,html,()=>keyboard.messageBox(subject,"警告"));
+                            
                         }else if(v>=max){
                             subject = `请注意,代码${code}的品种已经超出预设max:${max},值为:${v}`;
-                            sendMail(subject,html);
-                            keyboard.messageBox(subject,"警告");
+                            sendMail(subject,html, ()=>keyboard.messageBox(subject,"警告"));
+                           
                         }
                     });
                 },2000)
