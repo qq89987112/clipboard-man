@@ -2,6 +2,9 @@ const child_process = require("child_process");
 const clipboard = require( 'win-clipboard' );
 
 module.exports =  {
+    messageBox(message,title){
+        child_process.execSync(`wscript ./src/vbs/messageBox.vbs ${message} ${title}`);
+    },
     backout(){
         this.sendKeys("^{z}")
     },

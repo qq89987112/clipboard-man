@@ -1,5 +1,5 @@
 const keyboard = require("../js/keyboard");
-const store = require("../../../store");
+const storage = require("../js/storage");
 const utils = require("../js/utils");
 
 module.exports = {
@@ -7,7 +7,7 @@ module.exports = {
     handle(result){
         let [name,params] = utils.parseLineToObject(result[0]);
         let modifier = params.modifier;
-        let {notices} = store.getState();
+        let {notices} = storage;
         keyboard.output(notices.map((item, index) => `$$${index}：${JSON.stringify(Object.entries(item.params).reduce((prev, cur) => {
             prev[cur[0]] = modifier ? cur[1].slice(0, modifier) : '...';
             return prev;

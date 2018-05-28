@@ -269,7 +269,7 @@ module.exports = function(){
         }
 
 
-        clipboard.writeText(tempClipboardContent);
+        clipboard.setText(tempClipboardContent);
     } catch (e) {
         console.error(e);
         keyboard.output(e.message);

@@ -1,6 +1,7 @@
 const keyboard = require("../js/keyboard");
 const utils = require("../js/utils");
 const rssParser = require("rss-parser");
+const storage = require("../js/storage");
 
 /**
  * test
@@ -32,12 +33,12 @@ module.exports = {
     handle(result){
         let 
             keywords = result[1],
-            existKeywords = JSON.parse(localStorage.$rssKeywords||"[]");
+            existKeywords = storage.$rssKeywords||[];
 
         if(keywords){
             existKeywords = existKeywords.concat(keywords.split("\n").map(i=>i.trim()));
             existKeywords = existKeywords.filter((i,idx)=>i&&(existKeywords.findIndex(i2=>i2===i)===idx));
-            localStorage.$rssKeywords =  JSON.stringify(existKeywords);
+            storage.$rssKeywords =  existKeywords;
             keyboard.output("添加成功!");
         }else{
             let [name,params={}] = utils.parseLineToObject(result[0]);

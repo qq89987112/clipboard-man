@@ -1,7 +1,6 @@
 const keyboard = require("../js/keyboard");
-const templateMaker = require("../../templateMaker");
+const templateMaker = require("../js/templateMaker");
 const utils = require("../js/utils");
-const context = require("../js/context");
 const path = require("path");
 const jsBeautify = require("js-beautify");
 const fse = require("fs-extra");
@@ -10,6 +9,12 @@ module.exports = {
     validate:/\$template`([\s\S]+?)`\?(?:file=(\S+))?/,
     handle(result){
         let
+            context = {
+                notify(path, events, params, options) {
+                    if (params) {
+                    }
+                }
+            },
             orginText = result[1],
             clipboardContent = clipboard.readText(),
             templateOption = {

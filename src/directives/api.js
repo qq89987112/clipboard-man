@@ -1,5 +1,5 @@
 const utils = require("../js/utils")
-const global = require("../js/global")
+const storage = require("../js/storage")
 const keyboard = require("../js/keyboard")
 const fse = require("fs-extra");
 const path = require("path");
@@ -7,10 +7,11 @@ const path = require("path");
 module.exports = {
     validate:/^\$api\?(.+)/,
     handle(result){
+        let global = storage.storage||{};
         let [name,params={}] = utils.parseLineToObject(result[0]);
         let {url,file} = params;
         if(!global.notifyApiFolder){
-            keyboard.options("您还未设置global.notifyApiFolder,是否设置?",['是','否']).then(selects=>{
+            keyboard.options("您还未设置设置成功!notifyApiFolder,是否设置?",['是','否']).then(selects=>{
                 let select = selects[0];
                 if(select===0){
                     keyboard.output("$global.set?notifyApiFolder=");

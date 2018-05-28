@@ -15,7 +15,7 @@ const iohook = require("iohook");
 // });
 
 //  这个不可以拦截。
-iohook.registerShortcut([62],()=>{
+iohook.registerShortcut([66],()=>{
     handle();
 });
 
