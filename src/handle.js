@@ -1,14 +1,12 @@
 
-const clipboard = require( 'win-clipboard' );
 const directives = require("./directives");
 const utils = require("./js/utils");
 const keyboard = require("./js/keyboard");
 const glob = require("glob").sync;
 const fse = require("fs-extra");
 const path = require("path");
-const child_process = require('child_process');
 
-module.exports = function(){
+module.exports = function(commandLine){
     // 2018-05-11
     // 主要是以 ui测试api 为驱动。
     //
@@ -129,12 +127,7 @@ module.exports = function(){
 
 
     // 每一行都可以解析成对象
-    let
-        tempClipboardContent = clipboard.getText(),
-        clipboardContent;
-
-        child_process.execSync("wscript ./src/vbs/copy.vbs");
-        clipboardContent = clipboard.getText();
+ 
 
 
     try {
@@ -150,14 +143,14 @@ module.exports = function(){
                 reg = i.validate,
                 result;
             if(reg instanceof Function){
-                result = reg(clipboardContent);
+                result = reg(commandLine);
             }else{
-                result = reg.exec(clipboardContent);
+                result = reg.exec(commandLine);
             }
             result&&i.handle(result);
             return result;
         })) {
-            return;
+            return true;
         }
 
 
@@ -167,7 +160,7 @@ module.exports = function(){
         //  notify?path='D:\code\github\api-tools\renderer\src\js\clipboardMan.js'&slots=$$0,$$1    其中 $$0,$$1 是最近记录中生成的slot
         //  第二行开始是复杂参数的解析
 
-        while (line = lineReg.exec(clipboardContent)) {
+        while (line = lineReg.exec(commandLine)) {
             line = line[0];
 
             let [name, params] = utils.parseLineToObject(line);
@@ -267,9 +260,6 @@ module.exports = function(){
         } else {
             keyboard.output(`找不到命令：${commandName}`)
         }
-
-
-        clipboard.setText(tempClipboardContent);
     } catch (e) {
         console.error(e);
         keyboard.output(e.message);

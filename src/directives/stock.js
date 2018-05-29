@@ -4,6 +4,7 @@ const http = require("http");
 const path = require("path");
 const nodemailer = require("nodemailer");
 const config = require(path.resolve("./config.js"));
+const moment = require('moment');
 
 const emailOptions = {
     from: config.email.user, // 发送邮箱
@@ -47,7 +48,7 @@ const watchers = {
 /**
  * test
  *      $stock.C1809
- *      $stock.watch?code=C1809&max=1784
+ *      $stock.watch?code=C1809&max=1800
  *              => $stock.watch //自动读取最近的配置
  */
 
@@ -112,9 +113,12 @@ module.exports =  {
                 hanndle = setInterval(()=>{
                     fetch(code,v=>{
                         let 
+                            time =new moment().format("YYYY-MM-DD HH:mm:ss"),
                             subject,
-                            html=`编码为${code}的当前值为:${v},${[max&&`max值为:${max}`,min&&`min值为:${min}`].filter(i=>i)}`;
-                        console.log(html)
+                            html=`${time} 编码为${code}的当前值为:${v},${[max&&`max值为:${max}`,min&&`min值为:${min}`].filter(i=>i)}`;
+                            console.log(html);
+                            // node 10 以上
+                            // console.table([{"时间":time,"编码":code,"当前值":v,"MAX值":max,"MIN值":min}])
                         if(v<=min){
                             subject = `请注意,代码${code}的品种已经跌出预设min:${min},值为:${v}`;
                             sendMail(subject,html,()=>keyboard.messageBox(subject,"警告"));
