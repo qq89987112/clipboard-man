@@ -77,7 +77,7 @@ module.exports = {
             //     context.error("请指定$params 您可以将 $test 直接改为 $params");
             //     return;
             // }
-            let fileAddr = path.resolve("./template", file);
+            let fileAddr = path.join(path.resolve("./template"), file);
             result = templateMaker.make({
                 template: templateOption.template,
                 params: Object.entries(templateOption.params || {}).reduce((prev, cur) => {
