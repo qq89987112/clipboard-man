@@ -5,6 +5,7 @@ const path = require("path");
 const nodemailer = require("nodemailer");
 const config = require(path.resolve("./config.js"));
 const moment = require('moment');
+const iconv = require('iconv-lite');
 
 const emailOptions = {
     from: config.email.user, // 发送邮箱
@@ -59,10 +60,15 @@ module.exports =  {
         let [name,params] = utils.parseLineToObject(result[0]);
         let fetch = (code,cb=()=>{})=>{
                 http.get(`http://hq.sinajs.cn/list=${code}`,res => {
-                    res.setEncoding('utf8');
-                    let v ="";
-                    res.on("data",c=>v+=c);
+                    let html = [],len = 0;
+                    res.on('data', function(chunk) {
+                        html.push(chunk);
+                        len += chunk.length;
+                    });
                     res.on("end",()=>{
+                        let v;
+                        v = Buffer.concat(html, len);
+                        v = iconv.decode(v, 'gb2312');
                         let responseReg = /="(.+)"/;
                         result = responseReg.exec(v);
                         if (result) {
@@ -114,12 +120,13 @@ module.exports =  {
                 clearInterval(handle);
 
                 hanndle = setInterval(()=>{
-                    fetch(code,v=>{
+                    fetch(code,(v,result)=>{
                         let 
                             time =new moment().format("YYYY-MM-DD HH:mm:ss"),
                             subject,
-                            html=`${time} 编码为${code}的当前值为:${v},${[max&&`max值为:${max}`,min&&`min值为:${min}`].filter(i=>i)}`;
-                            console.log(html);
+                            html=`${result[0]}的当前值为:${v},${[max&&`max值为:${max}`,min&&`min值为:${min}`].filter(i=>i)}`;
+                            // console.log(`${time} ${html}`);
+                            console.log(`时间   品种    `);
                             // node 10 以上
                             // console.table([{"时间":time,"编码":code,"当前值":v,"MAX值":max,"MIN值":min}])
                         if(v<=min){

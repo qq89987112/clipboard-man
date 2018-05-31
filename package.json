@@ -3,6 +3,7 @@
     "fs-extra": "^6.0.1",
     "glob": "^7.1.2",
     "himalaya": "^1.1.0",
+    "iconv-lite": "^0.4.23",
     "iohook": "^0.1.16",
     "js-beautify": "^1.7.5",
     "moment": "^2.22.1",
