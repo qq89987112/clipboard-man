@@ -125,16 +125,16 @@ module.exports =  {
                             time =new moment().format("YYYY-MM-DD HH:mm:ss"),
                             subject,
                             html=`${result[0]}的当前值为:${v},${[max&&`max值为:${max}`,min&&`min值为:${min}`].filter(i=>i)}`;
-                            // console.log(`${time} ${html}`);
-                            console.log(`时间   品种    `);
+                            console.log(`${time} ${html}`);
+                            // console.log(`时间   品种    `);
                             // node 10 以上
                             // console.table([{"时间":time,"编码":code,"当前值":v,"MAX值":max,"MIN值":min}])
                         if(v<=min){
-                            subject = `请注意,代码${code}的品种已经跌出预设min:${min},值为:${v}`;
+                            subject = `${result[0]}已经跌出预设min:${min},值为:${v}`;
                             sendMail(subject,html,()=>keyboard.messageBox(subject,"警告"));
                             
                         }else if(v>=max){
-                            subject = `请注意,代码${code}的品种已经超出预设max:${max},值为:${v}`;
+                            subject = `${result[0]}已经超出预设max:${max},值为:${v}`;
                             sendMail(subject,html, ()=>keyboard.messageBox(subject,"警告"));
                            
                         }

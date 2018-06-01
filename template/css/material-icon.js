@@ -22,7 +22,7 @@ function template() {
   border-radius: 50%;
   width: 25px;
   height: 25px;
-  line-height: 25px;
+  line-height: 25px !important;
   text-align: center;
   background-color: #20a0ff;
   color: white;
