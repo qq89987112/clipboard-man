@@ -15,8 +15,8 @@ const clipboard = require( 'win-clipboard' );
 //     }
 // });
 
-//  这个不可以拦截。F10
-iohook.registerShortcut([68],()=>{
+//  这个不可以拦截。F2
+iohook.registerShortcut([60],()=>{
     let
     tempClipboardContent = clipboard.getText(),
     clipboardContent;
