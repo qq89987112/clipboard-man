@@ -28,5 +28,5 @@ iohook.registerShortcut([60],()=>{
         clipboard.setText(tempClipboardContent);
     }
 });
-handle("$stock.watch?code=C1809&max=1800&min=1760");
+// handle("$stock.watch?code=C1809&max=1800&min=1760");
 iohook.start();
