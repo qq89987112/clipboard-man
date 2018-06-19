@@ -167,7 +167,6 @@ module.exports = function(commandLine){
 
             commandOption[name] = params;
         }
-        console.log(commandOption);
 
         // 开始编译
         if (JSON.stringify(commandOption) === '{}') {

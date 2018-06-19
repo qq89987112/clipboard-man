@@ -7,6 +7,7 @@ const template = require("./template")
 const templates = require("./templates")
 const global = require("./global")
 const rss = require("./rss")
+const story = require("./story")
 
 module.exports =  {
     global,
@@ -17,5 +18,6 @@ module.exports =  {
     stock,
     template,
     templates,
-    rss
+    rss,
+    story
 }
