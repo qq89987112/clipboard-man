@@ -2,7 +2,7 @@ const keyboard = require("../js/keyboard");
 const glob = require("glob").sync;
 const {parse,stringify} = require("himalaya");
 const scssfmt = require('scssfmt')
-const clipboard = require( 'win-clipboard' );
+const {clipboard} = require('electron');
 
 /**
  * test
@@ -47,5 +47,5 @@ module.exports = {
         let cssResult = scssfmt(generateCss(html));
         console.log(cssResult);
         keyboard.output(htmlStr.replace(/style=["'].+?["'] ?/g,""));
-        clipboard.setText(cssResult);
+        clipboard.writeText(cssResult);
     }}

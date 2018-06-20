@@ -4,7 +4,7 @@ const utils = require("../js/utils");
 const path = require("path");
 const jsBeautify = require("js-beautify");
 const fse = require("fs-extra");
-const clipboard = require( 'win-clipboard' );
+const {clipboard} = require('electron');
 module.exports = {
     validate:/\$template`([\s\S]+?)`\?(?:file=(\S+))?/,
     handle(result){
@@ -16,7 +16,7 @@ module.exports = {
                 }
             },
             orginText = result[1],
-            clipboardContent = clipboard.getText(),
+            clipboardContent = clipboard.readText(),
             templateOption = {
                 template: orginText,
                 notify: {}

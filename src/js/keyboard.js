@@ -1,18 +1,19 @@
 const child_process = require("child_process");
-const clipboard = require( 'win-clipboard' );
+const {clipboard} = require('electron');
 
 module.exports =  {
     messageBox(message,title){
         child_process.execSync(`wscript ./src/vbs/messageBox.vbs ${message} ${title}`);
     },
-    backout(){
+    backout(str){
         this.sendKeys("^{z}")
+        str&&this.output(str);
     },
     sendKeys(keys){
         child_process.execSync(`wscript ./src/vbs/sendKeys.vbs "${keys}"`);
     },
     output(message){
-        clipboard.setText(message);
+        clipboard.writeText(message);
         child_process.execSync("wscript ./src/vbs/paste.vbs");
     },
     /**
