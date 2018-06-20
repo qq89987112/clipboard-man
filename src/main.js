@@ -17,3 +17,7 @@ app.on("ready",()=>{
     });
     console.log("opened!");
 })
+// 默认是退出应用,需要显式写出来
+app.on('window-all-closed', () => {
+    // app.quit()
+})

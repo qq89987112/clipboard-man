@@ -39,16 +39,22 @@ let program = {
             readLine();
         });
         globalShortcut.register("w",()=>{
+            keyboard.backout();
             let line = curFile.line - 2;
             readLine(line < 0 ? 0 : line);
         });
     },
-    view(params){
-        let {line=curFile.line,modifier,file} = params;
-        let win = new BrowserWindow({width: 80, height: 20,frame:false,center:true});
-        win.loadFile(path.resolve("./src/views/story-setting.html"));
-        win.show();
-    }
+    view:(()=>{
+        let win;
+        return (params)=>{
+            let {line=curFile.line,modifier,file} = params;
+            if(!win){
+                win = new BrowserWindow({width: 800, height: 600,frame:false,center:true});
+                win.loadFile(path.resolve("./src/views/story-setting.html"));
+            }
+            win.isVisible() ? win.hide() : win.show();
+        }
+    })()
 }
 module.exports = {
     validate:/^\$story(.+)/,
