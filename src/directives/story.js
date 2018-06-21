@@ -10,40 +10,41 @@ const {globalShortcut,BrowserWindow} = require('electron')
  *      $story.view
  *              按住S的时候显示窗口,且为半透明。
  */
-let 
-    curFile = {
-        content:'',
-        uri:'',
-        line:0
-    };
+
 
 let program = {
-    file(params){
-        let {line=curFile.line,modifier,file} = params;
-        curFile = {
-            content:'',
-            uri:'',
-            line:0
-        }
-        curFile.uri = `${file.name}.${file.modifier}`;
-        curFile.content = fse.readFileSync(curFile.uri, 'utf-8').toString().split("\n");
-        const readLine = (line)=>{
-            curFile.line = line||curFile.line;
-            keyboard.output(`${curFile.line}:${curFile.content[curFile.line++]||"已经全部读完!"}`);
-        }
+    file:(()=>{
+        let 
+            curFile = undefined;
 
-        readLine();
-        
-        globalShortcut.register("s",()=>{
-            keyboard.backout();
+        return (params)=>{
+            let {line=curFile.line,modifier,file} = params;
+            if(curFile) return;
+            curFile = {
+                content:'',
+                uri:'',
+                line:0
+            }
+            curFile.uri = `${file.name}.${file.modifier}`;
+            curFile.content = fse.readFileSync(curFile.uri, 'utf-8').toString().split("\n");
+            const readLine = (line)=>{
+                curFile.line = line||curFile.line;
+                keyboard.output(`${curFile.line}:${curFile.content[curFile.line++]||"已经全部读完!"}`);
+            }
+    
             readLine();
-        });
-        globalShortcut.register("w",()=>{
-            keyboard.backout();
-            let line = curFile.line - 2;
-            readLine(line < 0 ? 0 : line);
-        });
-    },
+            
+            globalShortcut.register("s",()=>{
+                keyboard.backout();
+                readLine();
+            });
+            globalShortcut.register("w",()=>{
+                keyboard.backout();
+                let line = curFile.line - 2;
+                readLine(line < 0 ? 0 : line);
+            });
+        }
+    })(),
     view:(()=>{
         let win;
         return (params)=>{
