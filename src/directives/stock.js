@@ -48,8 +48,8 @@ const watchers = {
 
 /**
  * test
- *      $stock.C1809
- *      $stock.watch?code=C1809&max=1800
+ *      $stock.RM1809
+ *      $stock.watch?code=RM1809
  *              => $stock.watch //自动读取最近的配置
  */
 
@@ -99,7 +99,7 @@ module.exports =  {
                     })
                 }).on('error', (e) => {
                     console.error(`错误: ${e.message}`);
-                  });
+                });
            
         }
 
