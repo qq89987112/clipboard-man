@@ -26,6 +26,7 @@ const child = child_process.spawn(electron,[require.resolve("./main.js")]);
 // 解决乱码
 child.stdout.on('data', function (data) {
     var buffer = new Buffer(data);
-    var str = iconv.decode(buffer, 'utf-8').replace(/\s+/g,"");
-    console.log(str);
+    // var str = iconv.decode(buffer, 'utf-8').replace(/\s+/g,"");
+    var str = iconv.decode(buffer, 'utf-8');
+    console.log(str.trim());
 });

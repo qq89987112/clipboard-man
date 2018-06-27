@@ -48,8 +48,8 @@ const watchers = {
 
 /**
  * test
- *      $stock.RM1809
- *      $stock.watch?code=RM1809
+ *      $stock.M1809
+ *      $stock.watch?code=M1809
  *              => $stock.watch //自动读取最近的配置
  */
 
