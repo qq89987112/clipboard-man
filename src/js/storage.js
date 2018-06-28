@@ -1,9 +1,13 @@
 const fse = require('fs-extra');
 const storage = require("./storage.json");
 module.exports = new Proxy(storage,{
-    // get(target, key, receiver) {
-    //     return Reflect.get(target, key, receiver);
-    // },
+    get(target, key, receiver) {
+        let result = Reflect.get(target, key, receiver);
+        // 应该裹一层proxy才是
+        result = result || {};
+        target[key] = result;
+        return result;
+    },
     set(target, key,value, receiver){
 
         // if(typeof value ==='object'){
