@@ -9,6 +9,7 @@ const global = require("./global")
 const rss = require("./rss")
 const story = require("./story")
 const searcher = require("./searcher")
+const findPic = require("./findPic")
 
 module.exports =  {
     global,
@@ -21,5 +22,6 @@ module.exports =  {
     templates,
     rss,
     story,
-    searcher
+    searcher,
+    findPic
 }
