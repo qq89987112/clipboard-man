@@ -10,6 +10,8 @@ const rss = require("./rss")
 const story = require("./story")
 const searcher = require("./searcher")
 const findPic = require("./findPic")
+const pix2code = require("./pix2code")
+const ocr = require("./ocr")
 
 module.exports =  {
     global,
@@ -23,5 +25,7 @@ module.exports =  {
     rss,
     story,
     searcher,
-    findPic
+    findPic,
+    pix2code,
+    ocr
 }
