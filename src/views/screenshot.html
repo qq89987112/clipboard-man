@@ -71,7 +71,8 @@
 <script>
   var
     screenshot = document.getElementById("screenshot"),
-    box = document.getElementById("box");
+    box = document.getElementById("box"),
+    remote = require('electron').remote;
 
   screenshot.addEventListener("mousedown", function (e) {
     if (screenshot.$upRecord) {
@@ -130,6 +131,8 @@
 
       }
     }
+
+    remote.getCurrentWindow().setResult("123");
     console.log("mouseup", e);
   });
 </script>
