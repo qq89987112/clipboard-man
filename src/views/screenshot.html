@@ -1,20 +1,62 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <!-- import CSS -->
   <!-- <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"> -->
   <link rel="stylesheet" href="./css/index.css">
   <style>
-    #screenshot{
+    #screenshot {
       width: 100vw;
       height: 100vh;
+      user-select: none;
+    }
+
+    .box {
+      display: none;
+      position: absolute;
+      background-color: greenyellow;
+    }
+
+
+    .box .top-line,
+    .box .right-line,
+    .box .bottom-line,
+    .box .left-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background-color: red;
+    }
+
+    .box .top-line {
+      bottom: auto;
+      height: 1px;
+    }
+
+    .box .right-line {
+      left: auto;
+      width: 1px;
+    }
+
+    .box .bottom-line {
+      top: auto;
+      height: 1px;
+    }
+
+    .box .left-line {
+      right: auto;
+      width: 1px;
     }
   </style>
 </head>
+
 <body>
   <div id="screenshot">
-    <div class="box">
+    <div class="box" id="box">
       <div class="top-line"></div>
       <div class="right-line"></div>
       <div class="bottom-line"></div>
@@ -22,23 +64,74 @@
     </div>
   </div>
 </body>
-  <!-- import Vue before Element -->
-  <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script> -->
-  <!-- import JavaScript -->
-  <!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
-  <script>
-    var screenshot = document.getElementById("screenshot");
+<!-- import Vue before Element -->
+<!-- <script src="https://unpkg.com/vue/dist/vue.js"></script> -->
+<!-- import JavaScript -->
+<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+<script>
+  var
+    screenshot = document.getElementById("screenshot"),
+    box = document.getElementById("box");
 
-    screenshot.addEventListener("mousedown",function(){
-        console.log("mousedown");
-    });
+  screenshot.addEventListener("mousedown", function (e) {
+    if (screenshot.$upRecord) {
+      screenshot.$upRecord = undefined;
+      box.style.display = "none";
+      box.style.width = 0;
+      box.style.height = 0;
+      return;
+    }
+    screenshot.$downRecord = {
+      clientX: e.clientX,
+      clientY: e.clientY
+    }
+    box.style.display = "inline-block";
+    box.style.top = e.clientY + "px";
+    box.style.left = e.clientX + "px";
+    console.log("mousedown", e);
+  });
 
-    screenshot.addEventListener("mouseup",function(){
-        console.log("mouseup");
-    });
+  screenshot.addEventListener("mousemove", function (e) {
+    var downRecord;
+    if (downRecord = screenshot.$downRecord) {
+      screenshot.$moveRecord = {
+        clientX: e.clientX,
+        clientY: e.clientY
+      }
+      var
+        deltaY = e.clientY - downRecord.clientY,
+        deltaX = e.clientX - downRecord.clientX;
 
-    screenshot.addEventListener("mousemove",function(){
-        console.log("mousemove");
-    });
-  </script>
+      if (deltaY < 0) {
+        box.style.height = `${-deltaY}px`;
+        box.style.top = e.clientY + "px";
+      } else {
+        box.style.height = `${deltaY}px`;
+      }
+
+
+      if (deltaX < 0) {
+        box.style.width = `${-deltaX}px`;
+        box.style.left = e.clientX + "px";
+      } else {
+        box.style.width = `${deltaX}px`;
+      }
+      console.log("mousemove", e);
+    }
+
+  });
+
+  screenshot.addEventListener("mouseup", function (e) {
+    if (screenshot.$downRecord) {
+      screenshot.$downRecord = undefined;
+      screenshot.$mousemove = undefined;
+
+      screenshot.$upRecord = {
+
+      }
+    }
+    console.log("mouseup", e);
+  });
+</script>
+
 </html>
