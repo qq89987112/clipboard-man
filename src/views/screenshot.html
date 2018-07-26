@@ -68,13 +68,40 @@
 <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script> -->
 <!-- import JavaScript -->
 <!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+<script src="./js/captrue.js"></script>
 <script>
   var
     screenshot = document.getElementById("screenshot"),
     box = document.getElementById("box"),
     remote = require('electron').remote;
 
+  box.addEventListener('mousedown', function (e) {
+    e.stopPropagation();
+    let {
+      top,
+      left,
+      width,
+      height
+    } = box.style;
+
+    let window = remote.getCurrentWindow();
+    window.setOpacity(0);
+
+    captrue({
+      y:parseInt(top),
+      x:parseInt(left),
+      width:parseInt(width),
+      height:parseInt(height)
+    }).then(url=>{
+      window.setResult(url);
+    });
+
+    
+  })
+
   screenshot.addEventListener("mousedown", function (e) {
+
+    // 用来取消原来的选择
     if (screenshot.$upRecord) {
       screenshot.$upRecord = undefined;
       box.style.display = "none";
@@ -82,14 +109,16 @@
       box.style.height = 0;
       return;
     }
+
     screenshot.$downRecord = {
       clientX: e.clientX,
       clientY: e.clientY
     }
+
+
     box.style.display = "inline-block";
     box.style.top = e.clientY + "px";
     box.style.left = e.clientX + "px";
-    console.log("mousedown", e);
   });
 
   screenshot.addEventListener("mousemove", function (e) {
@@ -117,7 +146,6 @@
       } else {
         box.style.width = `${deltaX}px`;
       }
-      console.log("mousemove", e);
     }
 
   });
@@ -132,8 +160,7 @@
       }
     }
 
-    remote.getCurrentWindow().setResult("123");
-    console.log("mouseup", e);
+
   });
 </script>
 

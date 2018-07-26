@@ -1,5 +1,4 @@
 const child_process = require('child_process');
-const handle = require("./handle");
 const electron = require('electron')
 const iconv = require('iconv-lite');
 // const {globalShortcut} = require('electron')

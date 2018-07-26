@@ -15,6 +15,10 @@ app.on("ready",()=>{
                 clipboard.writeText(tempClipboardContent);
             }
     });
+    
+    globalShortcut.register("F3",()=>{
+        handle('$findPic');
+    });
     console.log("opened!");
 })
 // 默认是退出应用,需要显式写出来
