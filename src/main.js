@@ -17,7 +17,7 @@ app.on("ready",()=>{
     });
     
     globalShortcut.register("F3",()=>{
-        handle('$api-test');
+        handle('$api-driver');
     });
     console.log("opened!");
 })

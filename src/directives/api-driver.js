@@ -13,7 +13,7 @@ const {clipboard} = require('electron');
  *      1、分为四段：模板列表、目标代码、历史url表(可设置别名,方便变量引用)、url返回值
  */
 module.exports = {
-    validate:/^\$api-test/,
+    validate:/^\$api-driver/,
     handle(result){
         let 
             clipboard = result[0],
