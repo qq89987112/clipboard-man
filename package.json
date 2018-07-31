@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "axios": "^0.18.0",
     "electron": "^2.0.2",
     "fs-extra": "^6.0.1",
     "glob": "^7.1.2",

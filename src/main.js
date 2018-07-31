@@ -17,7 +17,7 @@ app.on("ready",()=>{
     });
     
     globalShortcut.register("F3",()=>{
-        handle('$findPic');
+        handle('$api-test');
     });
     console.log("opened!");
 })

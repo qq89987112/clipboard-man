@@ -12,6 +12,7 @@ const searcher = require("./searcher")
 const findPic = require("./findPic")
 const pix2code = require("./pix2code")
 const ocr = require("./ocr")
+const apiTest = require("./api-test")
 
 module.exports =  {
     global,
@@ -27,5 +28,6 @@ module.exports =  {
     searcher,
     findPic,
     pix2code,
-    ocr
+    ocr,
+    apiTest
 }

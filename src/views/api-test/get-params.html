@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+  <div id="app">
+    <el-input size="mini" v-model="url"></el-input>
+    <el-button size="mini" type="primary" @click="submit">提交</el-button>
+    <el-button size="mini" @click='$close'>关闭</el-button>
+  </div>
+</body>
+  <!-- import Vue before Element -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="../js/vue-electron-plugin.js"></script>
+  <!-- import JavaScript -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script>
+ 
+    
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          url:''
+        }
+      },
+      methods:{
+        submit(){
+          this.$getWindow().setResult(this.url);
+        }
+      }
+    })
+  </script>
+</html>

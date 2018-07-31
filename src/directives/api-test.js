@@ -1,17 +1,54 @@
 const utils = require("../js/utils")
 const storage = require("../js/storage")
-const keyboard = require("../js/keyboard")
-const fse = require("fs-extra");
-const path = require("path");
+const superdog = require("../js/superdog");
+const axios = require("axios");
+const {clipboard} = require('electron');
 
 /**
  * web-utils 中的接口测试功能
+ * 使用快捷键运行指令时,clipboard里是url地址时,则进行请求,并进行相应的gui操作。
+ * 否则按照普通的指令处理
+ * 
+ * gui：
+ *      1、分为四段：模板列表、目标代码、历史url表(可设置别名,方便变量引用)、url返回值
  */
 module.exports = {
     validate:/^\$api-test/,
     handle(result){
-        let [name,params={}] = utils.parseLineToObject(result[0]);
+        let 
+            clipboard = result[0],
+            urlReg = /(?:http)|(?:https):\/\/.+/;
+
+        let [name,params={}] = utils.parseLineToObject(clipboard);
+        let {method = "GET"} = params;
+        method = method.toUpperCase();
+        
+        let promise = Promise.resolve(name);
+
+        if(!urlReg.test(clipboard)){
+            promise = superdog.start(`./api-test/get-url.html`).then(result=>{
+                method = result.method.toUpperCase();
+                return `${result.protocol}${result.url}`;
+            });
+        }
+
+        promise.then(url=>{
+            let request = Promise.reject("错误的方法");
+            
+            if(method === 'POST'){
+                request = superdog.start(`./api-test/getParams.html`);
+            }else if(method === 'GET'){
+                request = axios.get(url);
+            }
+            request.then(params=>{
+                superdog.start(`./api-test/test-result.html`).then(result=>clipboard.writeText(result))
+            }).catch(error=>{
+                console.error(error);
+            })
+        })
+        
         let {url,file} = params;
 
+     
     }
 }
