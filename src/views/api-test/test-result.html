@@ -10,11 +10,16 @@
 
 <body>
   <div id="app">
-    <h1>{{apiResult.url}}的结果</h1>
+    <h1>{{apiResult.url}}的结果 <el-button type="primary" size="mini">关闭</el-button></h1>
     <!-- 模板列表 -->
+    <!-- common -->
+    <!-- element-table -->
     <el-cascader placeholder="搜索" :options="options" filterable></el-cascader>
     <!-- 目标代码 -->
-    <pre class="code">{{code}}</pre>
+    <pre class="code">
+      <el-button type="primary" size="mini">复制</el-button>
+      {{code}}
+    </pre>
     <div class="api-layout">
     <!-- 历史url表(可设置别名,方便变量引用) -->
       <div class="api-history">
@@ -36,6 +41,7 @@
 <!-- import JavaScript -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script>
+  const fs = require("fs");
   new Vue({
     el: '#app',
     data() {

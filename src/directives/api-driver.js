@@ -11,6 +11,12 @@ const {clipboard} = require('electron');
  * 
  * gui：
  *      1、分为四段：模板列表、目标代码、历史url表(可设置别名,方便变量引用)、url返回值
+ * 
+ * 
+ * modifier:
+ *      result  快捷键查看剪贴板中的最近返回数据
+ *      get     快捷键访问剪贴板中的url
+ *      post    快捷键访问剪贴板中的url
  */
 module.exports = {
     validate:/^\$api-driver/,
