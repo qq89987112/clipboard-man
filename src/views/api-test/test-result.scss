@@ -1,9 +1,8 @@
-#app{
+#app {
     height: 100vh;
     padding-top: 30px;
     box-sizing: border-box;
-
-    .cascader{
+    .cascader {
         height: 30px;
         margin-top: -30px;
     }
@@ -14,19 +13,16 @@
             width: 50%;
             float: left;
             position: relative;
-
-            .code{
+            .code {
                 height: 100%;
                 width: 100%;
                 overflow: auto;
-
-                &::selection{
+                &::selection {
                     background-color: #20a0ff;
                     color: white;
                 }
             }
-
-            .copy{
+            .copy {
                 position: absolute;
                 right: 15px;
                 top: 15px;
@@ -39,16 +35,15 @@
             float: left;
             width: 50%;
             overflow: auto;
-          .api-history {
-            .api-history-item {
+            .api-history {
+                .api-history-item {}
             }
-          }
-          .api-rusult {
-            &::selection{
-                background-color: #20a0ff;
-                color: white;
+            .api-rusult {
+                &::selection {
+                    background-color: #20a0ff;
+                    color: white;
+                }
             }
-          }
         }
     }
 }
