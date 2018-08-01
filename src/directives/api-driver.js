@@ -42,12 +42,16 @@ module.exports = {
             let request = Promise.reject("错误的方法");
             
             if(method === 'POST'){
-                request = superdog.start(`./api-test/getParams.html`);
+                request = superdog.start(`./api-test/getParams.html`).then(params=>axios.post(url,params));
             }else if(method === 'GET'){
                 request = axios.get(url);
             }
-            request.then(params=>{
-                superdog.start(`./api-test/test-result.html`).then(result=>clipboard.writeText(result))
+            request.then(result=>{
+                superdog.start(`./api-test/test-result.html`,{
+                    url,
+                    result:result.data,
+                    method
+                }).then(result=>clipboard.writeText(result))
             }).catch(error=>{
                 console.error(error);
             })

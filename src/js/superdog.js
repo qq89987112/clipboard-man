@@ -13,17 +13,19 @@ module.exports = {
     make(){
 
     },
-    start(url){
+    start(url,params){
         return new Promise((resolve,reject)=>{
             let win = new BrowserWindow({
-                width: 800,
-                height: 600,
-                frame: false,
-                center: true,
-                fullscreen: true
+                // width: 800,
+                // height: 600,
+                // frame: false,
+                // center: true,
+                // fullscreen: true,
+                autoHideMenuBar:true
             });
             win.loadFile(path.resolve("./src/views",url));
             win.setResult = resolve;
+            win.__params__ = params;
         })
     },
     startSync(){

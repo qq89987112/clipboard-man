@@ -1,10 +1,13 @@
 module.exports = {
-    // params = [
-    //          {
-    //              name:'name',
-    //              type:'type'
-    //          }
-    //      ]
+    /**
+     *  用于从剪贴板的模板代码中生成系统的template文件
+     *  params = [
+     *       {
+     *           name:'name',
+     *           type:'type'
+     *       }
+     *   ]
+     */
     make({template, params = [], defaultValues,notices={}}) {
         let typeDefaultValues = {
             Object: '{a:1,b:2,c:3}',
@@ -73,5 +76,9 @@ return {
     }
 }
 }`;
+    },
+    compile(templateText,params={}){
+        let template = eval(`(${templateText})`)();
+        return template.compile(params);
     }
 }

@@ -6,7 +6,8 @@ h1, h2, h3, .el-table {
   margin-top: 0 !important;
   position: relative;
   top: 50%;
-  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
 }
 
 .el-dialog .el-dialog__header {
@@ -32,3 +33,4 @@ h1, h2, h3, .el-table {
 .el-dialog .el-upload .el-upload-dragger {
   width: auto;
 }
+/*# sourceMappingURL=element-extra.css.map */
