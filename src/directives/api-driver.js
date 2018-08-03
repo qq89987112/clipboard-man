@@ -2,7 +2,9 @@ const utils = require("../js/utils")
 const storage = require("../js/storage")
 const superdog = require("../js/superdog");
 const axios = require("axios");
-const {clipboard} = require('electron');
+const {
+    clipboard
+} = require('electron');
 
 /**
  * web-utils 中的接口测试功能
@@ -18,47 +20,63 @@ const {clipboard} = require('electron');
  *      get     快捷键访问剪贴板中的url
  *      post    快捷键访问剪贴板中的url
  */
+let win;
 module.exports = {
-    validate:/^\$api-driver/,
-    handle(result){
-        let 
+    validate: /^\$api-driver/,
+    handle(result) {
+        let
             clipboard = result[0],
             urlReg = /(?:http)|(?:https):\/\/.+/;
 
-        let [name,params={}] = utils.parseLineToObject(clipboard);
-        let {method = "GET"} = params;
+        let [name, params = {}] = utils.parseLineToObject(clipboard);
+        let {
+            method = "GET"
+        } = params;
         method = method.toUpperCase();
-        
+
         let promise = Promise.resolve(name);
 
-        if(!urlReg.test(clipboard)){
-            promise = superdog.start(`./api-test/get-url.html`).then(result=>{
+        if (!urlReg.test(clipboard)) {
+            promise = superdog.start(`./api-test/get-url.html`).then(result => {
                 method = result.method.toUpperCase();
                 return `${result.protocol}${result.url}`;
             });
         }
 
-        promise.then(url=>{
+        promise.then(url => {
             let request = Promise.reject("错误的方法");
-            
-            if(method === 'POST'){
-                request = superdog.start(`./api-test/getParams.html`).then(params=>axios.post(url,params));
-            }else if(method === 'GET'){
+
+            if (method === 'POST') {
+                request = superdog.startAsync(`./api-test/getParams.html`).then(params => axios.post(url, params));
+            } else if (method === 'GET') {
                 request = axios.get(url);
             }
-            request.then(result=>{
-                superdog.start(`./api-test/test-result.html`,{
+            request.then(result => {
+                let api = {
                     url,
-                    result:result.data,
+                    result: result.data,
                     method
-                }).then(result=>clipboard.writeText(result))
-            }).catch(error=>{
+                };
+
+                if (win) {
+                    let notify = win.$notify || (() => {});
+                    notify(api);
+                    return;
+                }
+
+                win = superdog.start(`./api-test/test-result.html`, api);
+                win.on('closed', () => win = null);
+                
+            }).catch(error => {
                 console.error(error);
             })
         })
-        
-        let {url,file} = params;
 
-     
+        let {
+            url,
+            file
+        } = params;
+
+
     }
 }

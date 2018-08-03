@@ -13,7 +13,8 @@ module.exports = {
     make(){
 
     },
-    start(url,params){
+    // promise = superdog.startAsync(`./api-test/getParams.html`).then(params=>axios.post(url,params));
+    startAsync(url,params){
         return new Promise((resolve,reject)=>{
             let win = new BrowserWindow({
                 // width: 800,
@@ -28,7 +29,18 @@ module.exports = {
             win.__params__ = params;
         })
     },
-    startSync(){
-        
+    // let win = start();
+    //  win.onResult = ()=>{}
+    start(url,params){
+        let win = new BrowserWindow({
+            autoHideMenuBar:true
+        });
+        win.loadFile(path.resolve("./src/views",url));
+        win.setResult = (...params)=>{
+            let onResult = win.onResult ||(()=>{});
+            onResult(...params);
+        };
+        win.__params__ = params;
+        return win;
     }
 }
