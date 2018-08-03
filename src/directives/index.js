@@ -13,6 +13,7 @@ const findPic = require("./findPic")
 const pix2code = require("./pix2code")
 const ocr = require("./ocr")
 const apiDriver = require("./api-driver")
+const extractDoc = require("./extract-doc")
 
 module.exports =  {
     global,
@@ -29,5 +30,6 @@ module.exports =  {
     findPic,
     pix2code,
     ocr,
-    apiDriver
+    apiDriver,
+    extractDoc
 }
