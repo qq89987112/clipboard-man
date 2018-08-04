@@ -70,7 +70,7 @@
           };
         }
       }
-      let options = dirInfo(path.resolve("./template"));
+      let options = dirInfo(path.resolve("./template/api-driver"));
       return {
         options: options.children,
         api: {},
@@ -94,7 +94,6 @@
         this.apiList.push(pageParams);
       }
       this.$onNotify(params => {
-        debugger
         if (params.type === 'api') {
           this.apiList.push(params.api);
         }

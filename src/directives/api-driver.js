@@ -7,13 +7,13 @@ const {
 } = require('electron');
 
 /**
- * web-utils 中的接口测试功能
+ * 【注意】
+ * 仅仅只做api-driver的相关模板,api测试请转移至 web-utils 中的接口测试功能
  * 使用快捷键运行指令时,clipboard里是url地址时,则进行请求,并进行相应的gui操作。
  * 否则按照普通的指令处理
  * 
  * gui：
  *      1、分为四段：模板列表、目标代码、历史url表(可设置别名,方便变量引用)、url返回值
- * 
  * 
  * modifier:
  *      result  快捷键查看剪贴板中的最近返回数据

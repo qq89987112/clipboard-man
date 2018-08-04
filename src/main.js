@@ -2,7 +2,11 @@ const {app,clipboard,globalShortcut} = require('electron')
 const child_process = require('child_process');
 const handle = require("./handle");
 
+
+
+
 app.on("ready",()=>{
+    require("./shortcut-groups")
     globalShortcut.register("F2",()=>{
         let
             tempClipboardContent = clipboard.readText(),
@@ -16,7 +20,7 @@ app.on("ready",()=>{
             }
     });
     
-    globalShortcut.register("F3",()=>{
+    globalShortcut.register("CTRL + F3",()=>{
         handle('$api-driver');
     });
     console.log("opened!");
