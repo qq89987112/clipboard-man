@@ -12558,4 +12558,19 @@ p {
 img {
   vertical-align: middle;
 }
+
+.material-icon {
+  display: inline-block;
+  border: 1px solid #20a0ff;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  line-height: 25px !important;
+  text-align: center;
+  background-color: #20a0ff;
+  color: white;
+  -webkit-box-shadow: 0 0 10px #666;
+          box-shadow: 0 0 10px #666;
+  cursor: pointer;
+}
 /*# sourceMappingURL=index.css.map */

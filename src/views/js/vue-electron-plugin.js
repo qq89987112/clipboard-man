@@ -2,22 +2,14 @@ let electron = require("electron");
 let {remote} = electron;
 let win = remote.getCurrentWindow();
 
-let notifies = {};
+let notifies = [];
 
-win.$notify = (name,params)=>{
-        let name = item.name;
-        if(name){
-            let arr = notifies[name] || [];
-            arr.forEach(item=>item(params))
-        }
-}
+win.on('$notify',(params)=>{
+    notifies.forEach(item=>item(params))
+});
 
-Vue.prototype.$onNotify = (name,cb=()=>{})=>{
-    if(name){
-        let arr = notifies[name] || [];
-        arr.push(cb);
-        notifies[name] = arr;
-    }
+Vue.prototype.$onNotify = (cb=()=>{})=>{
+    notifies.push(cb);
 }
 
 Vue.prototype.$closeWindow = win.close.bind(win);

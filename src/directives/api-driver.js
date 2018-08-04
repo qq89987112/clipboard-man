@@ -37,14 +37,15 @@ module.exports = {
         let promise = Promise.resolve(name);
 
         if (!urlReg.test(clipboard)) {
-            promise = superdog.start(`./api-test/get-url.html`).then(result => {
+            promise = superdog.startAsync(`./api-test/get-url.html`).then(result => {
                 method = result.method.toUpperCase();
                 return `${result.protocol}${result.url}`;
             });
         }
 
         promise.then(url => {
-            let request = Promise.reject("错误的方法");
+            // let request = Promise.reject("错误的方法");
+            let request = Promise.resolve();
 
             if (method === 'POST') {
                 request = superdog.startAsync(`./api-test/getParams.html`).then(params => axios.post(url, params));
@@ -59,8 +60,9 @@ module.exports = {
                 };
 
                 if (win) {
-                    let notify = win.$notify || (() => {});
-                    notify(api);
+                    // let notify = win.$notify || (() => {});
+                    // notify("receive-api",api);
+                    win.emit("$notify",{type:"api",api});
                     return;
                 }
 

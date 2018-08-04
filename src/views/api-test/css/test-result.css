@@ -14,6 +14,49 @@
   height: 100%;
 }
 
+#app .row .api-history-wrapper {
+  height: 100%;
+  position: absolute;
+  left: -200px;
+  top: 0;
+  width: 200px;
+  -webkit-transition: left 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: left 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+  background-color: #fff;
+  z-index: 1;
+}
+
+#app .row .api-history-wrapper.active {
+  left: 0;
+}
+
+#app .row .api-history-wrapper.active .material-icon {
+  -webkit-transform: translate(50%, -50%);
+          transform: translate(50%, -50%);
+}
+
+#app .row .api-history-wrapper .api-history {
+  height: 100%;
+  overflow-y: auto;
+}
+
+#app .row .api-history-wrapper .api-history .api-history-item {
+  cursor: pointer;
+}
+
+#app .row .api-history-wrapper .api-history .api-history-item.acitve {
+  background-color: #20a0ff;
+  color: white;
+}
+
+#app .row .api-history-wrapper .material-icon {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translate(100%, -50%);
+          transform: translate(100%, -50%);
+}
+
 #app .row .code-wrapper {
   height: 100%;
   width: 50%;
@@ -43,21 +86,21 @@
   top: 15px;
 }
 
-#app .row .api-layout {
+#app .row .api-rusult {
   height: 100%;
+  overflow: auto;
   border-left: 1px solid #000;
   margin-left: -1px;
   float: left;
   width: 50%;
-  overflow: auto;
 }
 
-#app .row .api-layout .api-rusult::-moz-selection {
+#app .row .api-rusult::-moz-selection {
   background-color: #20a0ff;
   color: white;
 }
 
-#app .row .api-layout .api-rusult::selection {
+#app .row .api-rusult::selection {
   background-color: #20a0ff;
   color: white;
 }

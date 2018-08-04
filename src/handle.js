@@ -180,7 +180,6 @@ module.exports = function(commandLine){
             modifier = commandParams.modifier,
             fileAddr = path.resolve(`./template/**/*${commandName}*.js`);
 
-
         const
             addrs = glob(fileAddr);
 

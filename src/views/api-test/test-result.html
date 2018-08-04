@@ -10,29 +10,34 @@
 
 <body>
   <div id="app">
-    <p style="text-align: center;" class="cascader"><el-cascader size="mini" @change="onFileSelect" placeholder="搜索" :options="options" filterable></el-cascader></p>
+    <p style="text-align: center;" class="cascader">
+      <el-cascader size="mini" @change="onFileSelect" placeholder="搜索" :options="options" filterable></el-cascader>
+    </p>
     <!-- 模板列表 -->
     <!-- common -->
     <!-- element-table -->
-    
+
     <div class="row">
+        <div class="api-history-wrapper" :class="navActive&&'active'">
+            <!-- 历史url表(可设置别名,方便变量引用) -->
+            <div class="api-history">
+              <div class="api-history-item"  :class="item===api&&'acitve'" @click="api = item" v-for="item in apiList" :title="item.url">
+                <span>{{item.url}}</span>
+                <el-button size="mini" type="primary" @click="onEditClick(item)">编辑</el-button>
+              </div>
+            </div>
+            <div @click="navActive = !navActive" class="material-icon">{{navActive ? '&lt;' : '&gt;'}}</div>
+          </div>
       <!-- 目标代码 -->
       <div class="code-wrapper">
         <el-button class="copy" type="primary" size="mini">复制</el-button>
         <pre class="code">{{code}}</pre>
       </div>
-      <div class="api-layout">
-      <!-- 历史url表(可设置别名,方便变量引用) -->
-        <div class="api-history">
-            <div class="api-history-item" v-for="item in apiList">
-              {{item.url}}
-            </div>
-        </div>
-        <!-- url返回值 -->
-        <div class="api-rusult">
-          <h1 style="text-align: center;">{{api.url}}的结果</h1>
-          <pre>{{api.result}}</pre>
-        </div>
+
+      <!-- url返回值 -->
+      <div class="api-rusult">
+        <h1 style="text-align: center;">{{api.url}}的结果</h1>
+        <pre>{{api.result}}</pre>
       </div>
     </div>
   </div>
@@ -49,36 +54,51 @@
   new Vue({
     el: '#app',
     data() {
-      function dirInfo(dir){
+      function dirInfo(dir) {
         let label = path.basename(dir);
-        if(fs.statSync(dir).isDirectory()){
-          let children = fs.readdirSync(dir).map(name=>dirInfo(path.join(dir,name)));
+        if (fs.statSync(dir).isDirectory()) {
+          let children = fs.readdirSync(dir).map(name => dirInfo(path.join(dir, name)));
           return {
-            value:dir,
+            value: dir,
             children,
             label
           }
-        }else{
-          return {value:dir,label};
+        } else {
+          return {
+            value: dir,
+            label
+          };
         }
       }
       let options = dirInfo(path.resolve("./template"));
       return {
-      options:options.children,
-      api:this.$getParams()||{},
-      code:"",
-      apiList:[]
-    }
+        options: options.children,
+        api: {},
+        code: "",
+        apiList: [],
+        navActive:false
+      }
     },
     methods: {
-      onFileSelect(params){
-        this.code = templateMaker.compile(fs.readFileSync(params[params.length-1]),this.api);
+      onFileSelect(params) {
+        this.code = templateMaker.compile(fs.readFileSync(params[params.length - 1]), this.api);
       },
       submit() {
         this.$getWindow().setResult(this.url);
       }
     },
-    created(){
+    created() {
+      let pageParams = this.$getParams();
+      if (pageParams) {
+        this.api = pageParams;
+        this.apiList.push(pageParams);
+      }
+      this.$onNotify(params => {
+        debugger
+        if (params.type === 'api') {
+          this.apiList.push(params.api);
+        }
+      })
     }
   })
 </script>
