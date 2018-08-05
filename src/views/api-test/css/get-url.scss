@@ -1,0 +1,16 @@
+#app{
+    .form{
+        display: flex;
+        position: relative;
+    }
+    .placeholder{
+        height: 70px;
+        line-height: 70px;
+        background-color: #f0f0f0;
+        font-size: 26px;
+        text-align: center;
+        color: #20a0ff;
+        user-select: none;
+        // -webkit-app-region: drag;
+    }
+}

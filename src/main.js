@@ -1,4 +1,4 @@
-const {app,clipboard,globalShortcut} = require('electron')
+const {app,clipboard,globalShortcut,Notification} = require('electron')
 const child_process = require('child_process');
 const handle = require("./handle");
 
@@ -20,7 +20,7 @@ app.on("ready",()=>{
             }
     });
     
-    globalShortcut.register("CTRL + F3",()=>{
+    globalShortcut.register("F3",()=>{
         handle('$api-driver');
     });
     console.log("opened!");

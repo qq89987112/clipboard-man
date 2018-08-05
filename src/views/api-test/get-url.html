@@ -5,23 +5,28 @@
   <meta charset="UTF-8">
   <!-- import CSS -->
   <link rel="stylesheet" href="../css/index.css">
+  <link rel="stylesheet" href="./css/get-url.css">
+  <style>
+  </style>
 </head>
 
 <body>
   <div id="app">
-    <el-select size="mini" v-model="protocol">
-      <el-option value="http://" label="http://"></el-option>
-      <el-option value="https://" label="https://"></el-option>
-    </el-select>
-    <el-input size="mini" v-model="url">
-    </el-input>
-    <el-select size="mini" v-model="method">
-      <el-option value="GET"></el-option>
-      <el-option value="POST"></el-option>
-    </el-select>
-    <el-button size="mini" type="primary" @click="submit">提交</el-button>
-    <el-button size="mini" @click='close'>关闭</el-button>
-  </div>
+    <div class="form">
+      <el-select size="mini" v-model="protocol">
+        <el-option value="http://" label="http://"></el-option>
+        <el-option value="https://" label="https://"></el-option>
+      </el-select>
+      <el-input size="mini" v-model="url">
+      </el-input>
+      <el-select size="mini" v-model="method">
+        <el-option value="GET"></el-option>
+        <el-option value="POST"></el-option>
+      </el-select>
+      <el-button size="mini" type="primary" @click="submit">提交</el-button>
+      <el-button size="mini" @click='close'>关闭</el-button>
+    </div>
+    <div class="placeholder">请输入url信息</div>
 </body>
 <!-- import Vue before Element -->
 <script src="../js/vue.js"></script>

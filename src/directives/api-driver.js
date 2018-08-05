@@ -20,7 +20,7 @@ const {
  *      get     快捷键访问剪贴板中的url
  *      post    快捷键访问剪贴板中的url
  */
-let win;
+let winDog;
 module.exports = {
     validate: /^\$api-driver/,
     handle(result) {
@@ -37,7 +37,7 @@ module.exports = {
         let promise = Promise.resolve(name);
 
         if (!urlReg.test(clipboard)) {
-            promise = superdog.startAsync(`./api-test/get-url.html`).then(result => {
+            promise = new superdog({height:100,frame:false,resizable:false}).startAsync(`./api-test/get-url.html`).then(result => {
                 method = result.method.toUpperCase();
                 return `${result.protocol}${result.url}`;
             });
@@ -59,16 +59,14 @@ module.exports = {
                     method
                 };
 
-                if (win) {
-                    // let notify = win.$notify || (() => {});
-                    // notify("receive-api",api);
-                    win.emit("$notify",{type:"api",api});
+                if (winDog) {
+                    winDog._win.emit("$notify",{type:"api",api});
                     return;
                 }
 
-                win = superdog.start(`./api-test/test-result.html`, api);
-                win.on('closed', () => win = null);
-                
+                winDog = new superdog();
+                winDog.start(`./api-test/test-result.html`, api);
+                winDog._win.on('closed', () => winDog = null);
             }).catch(error => {
                 console.error(error);
             })

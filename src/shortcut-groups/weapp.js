@@ -12,7 +12,7 @@ module.exports = {
                 
             })
         `;
-        globalShortcut.register(prefix('F1'),()=> keyboard.output(beautify.js(requestTemplate));
+        globalShortcut.register(prefix('F1'),()=> keyboard.output(beautify.js(requestTemplate)));
         globalShortcut.register(prefix('F2'),()=> keyboard.output(beautify.js(`
             func(){
                 ${requestTemplate}

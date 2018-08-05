@@ -1,12 +1,12 @@
-
 const directives = require("./directives");
 const utils = require("./js/utils");
+const templateMaker = require("./js/templateMaker");
 const keyboard = require("./js/keyboard");
 const glob = require("glob").sync;
 const fse = require("fs-extra");
 const path = require("path");
 
-module.exports = function(commandLine){
+module.exports = function (commandLine) {
     // 2018-05-11
     // 主要是以 ui测试api 为驱动。
     //
@@ -119,15 +119,15 @@ module.exports = function(commandLine){
     // table?column=姓名，年龄，性别，职业&operation=删除.confirm     字段后面跟点 代表附加信息，一般是类型
 
     // api?/api/base/getUserInfo.base =>
-//                                       1、您没有配置实际项目地址,请输入项目地址：$projectAddr。
-//                                       2、setEnv?$projectAddr&D:\code\github\api-tools
+    //                                       1、您没有配置实际项目地址,请输入项目地址：$projectAddr。
+    //                                       2、setEnv?$projectAddr&D:\code\github\api-tools
 
 
     // ks.sendKeys(['a', 'b', 'c']);
 
 
     // 每一行都可以解析成对象
- 
+
 
 
     try {
@@ -139,17 +139,17 @@ module.exports = function(commandLine){
 
 
         if (Object.values(directives).find(i => {
-            let 
-                reg = i.validate,
-                result;
-            if(reg instanceof Function){
-                result = reg(commandLine);
-            }else{
-                result = reg.exec(commandLine);
-            }
-            result&&i.handle(result);
-            return result;
-        })) {
+                let
+                    reg = i.validate,
+                    result;
+                if (reg instanceof Function) {
+                    result = reg(commandLine);
+                } else {
+                    result = reg.exec(commandLine);
+                }
+                result && i.handle(result);
+                return result;
+            })) {
             return true;
         }
 
@@ -200,53 +200,31 @@ module.exports = function(commandLine){
                 let template = fse.readFileSync(addr, 'utf-8');
                 try {
                     template = eval(`(${template})`)();
-                } catch (e) {
-                    console.error(e);
-                    keyboard.output(e.message);
-                    return;
-                }
 
-                let parameters = template.parameters;
+                    let parameters = template.parameters;
 
-                if (commandParams.modifier === 'demo') {
-                    JSON.stringify(Object.entries(parameters).map(i => i[0]));
-                    keyboard.output(`${commandName}?${Object.entries(parameters).map(i => {
-                        let example = '';
-                        let key = i[0];
-                        if (key !== 'rest') {
-                            switch (i[1]) {
-                                case Array:
-                                    example = `${key}=1,2,3,4`;
-                                    break;
-                                case String:
-                                    example = `${key}=${key}`;
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        return example;
-                    }).filter(i => i).join("&")}`);
-                    return;
-                }
-
-                let templateParams = {modifier: commandParams.modifier};
-                Object.entries(parameters).forEach(item => {
-                    let name = item[0];
-                    let value = commandParams[name];
-                    if (value) {
-                        templateParams[name] = value;
-                    } else {
-                        templateParams[name] = commandParams.rest.shift() || undefined;
+                    if (commandParams.modifier === 'demo') {
+                        return keyboard.output(templateMaker.demoPath(addr));
                     }
-                });
 
-                console.log("模板参数：", templateParams);
+                    let templateParams = {
+                        modifier: commandParams.modifier
+                    };
+                    Object.entries(parameters).forEach(item => {
+                        let name = item[0];
+                        let value = commandParams[name];
+                        if (value) {
+                            templateParams[name] = value;
+                        } else {
+                            templateParams[name] = commandParams.rest.shift() || undefined;
+                        }
+                    });
 
-                try {
+                    console.log("模板参数：", templateParams);
+
                     let result = template.compile(templateParams, {
                         notify(path, events, params, options) {
-                            
+
                         }
                     });
                     keyboard.output(result.trim());

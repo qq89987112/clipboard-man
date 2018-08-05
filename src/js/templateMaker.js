@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+
 module.exports = {
     /**
      *  用于从剪贴板的模板代码中生成系统的template文件
@@ -77,8 +80,41 @@ return {
 }
 }`;
     },
+    converTextToTemplate(templateText){
+        return eval(`(${templateText})`)();
+    },
     compile(templateText,params={}){
-        let template = eval(`(${templateText})`)();
+        let template = this.converTextToTemplate(templateText);
         return template.compile(params);
-    }
+    },
+    compilePath(path,params={}){
+        return this.compile(fs.readFileSync(path),params);
+    },
+    demoPath(filePath){
+        let template = this.converTextToTemplate(fs.readFileSync(filePath));
+        let parameters = template.parameters;
+        // JSON.stringify(Object.entries(parameters).map(i => i[0]));
+        return `${path.basename(filePath,".js")}?${Object.entries(parameters).map(i => {
+            let example = '';
+            let key = i[0];
+            if (key !== 'rest') {
+                switch (i[1]) {
+                    case Array:
+                        example = `${key}=1,2,3,4`;
+                        break;
+                    case String:
+                        example = `${key}=${key}`;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return example;
+        }).filter(i => i).join("&")}`;
+
+    },
+    // 拿不到 commandName
+    // demo(templateText){
+      
+    // }
 }
