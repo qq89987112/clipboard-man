@@ -15,6 +15,7 @@ const ocr = require("./ocr")
 const apiDriver = require("./api-driver")
 const extractDoc = require("./extract-doc")
 const snippet = require("./snippet")
+const templateGui = require("./template-gui")
 
 module.exports =  {
     global,
@@ -33,5 +34,6 @@ module.exports =  {
     ocr,
     apiDriver,
     extractDoc,
-    snippet
+    snippet,
+    templateGui
 }

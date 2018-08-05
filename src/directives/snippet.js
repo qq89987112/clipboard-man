@@ -5,7 +5,7 @@ const path = require("path");
 const fse = require("fs-extra");
 
 /**
- * 
+ * 【注意】不做直接从编辑器里制作snippet
  *  抽取文件夹里的所有模板,调用.demo制作成相应的snippet
  * 
  *  test

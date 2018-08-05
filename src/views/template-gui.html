@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" href="./css/template-gui.css">
+</head>
+
+<body>
+    <div id="app">
+        <el-input v-model="code" class="textarea" type="textarea" resize="none"></el-input>
+        <p class="actions" >
+          <el-autocomplete size="mini"  class="el-autocomplete" v-model="output" :fetch-suggestions="querySearch" placeholder="请选择生成文件夹"></el-autocomplete>
+          <el-input style="width:10em" size="mini" v-model="name" placeholder="请输入名字"></el-input>
+          <el-select  placeholder="请选择格式化方式" size="mini" v-model="beautify" @change="onBeautifyChange">
+            <el-option value="" label="无"></el-option>
+            <el-option value="css"></el-option>
+            <el-option value="js"></el-option>
+            <el-option value="html"></el-option>
+          </el-select>
+          <el-button size="mini" type="primary" @click="gen">生成</el-button>
+        </p>
+      </div>
+</body>
+<!-- import Vue before Element -->
+<script src="./js/vue.js"></script>
+<script src="./js/vue-electron-plugin.js"></script>
+<!-- import JavaScript -->
+<script src="./js/element.js"></script>
+<script>
+  const fse = require("fs-extra");
+  const beautify = require("js-beautify");
+  const path = require("path");
+  const templateMaker = require(path.resolve("./src/js/templateMaker.js"));
+  new Vue({
+    el: '#app',
+    data() {
+      let parent = path.resolve("./template");
+      this.dirs = fse.readdirSync(parent).filter(i => (fse.statSync(path.join(parent, i)).isDirectory())).map(i => ({
+        value: i,
+        path: path.join(parent, i)
+      }));
+      return {
+        output: '',
+        code:this.$getParams()||"",
+        name:'',
+        beautify:''
+      }
+    },
+    methods: {
+      querySearch(queryString, cb) {
+        cb(this.dirs.filter(i=>i.value.toLowerCase().indexOf(queryString.toLowerCase())>=0));
+      },
+      gen(){
+        fse.outputFileSync(path.resolve(`./template/${this.output}/${this.name}.js`),templateMaker.make({template:this.code}));
+        this.code = '';
+        this.name = '';
+        this.output = '';
+        this.beautify = '';
+      },
+      onBeautifyChange(type){
+        this.code = type ? beautify[type](this.code) : this.$getParams();
+      }
+    },
+    created() {}
+  })
+</script>
+
+</html>

@@ -18,9 +18,8 @@ app.on("ready",()=>{
             }
     });
     
-    globalShortcut.register("F3",()=>{
-        handle('$api-driver');
-    });
+    globalShortcut.register("F1",()=>handle('$template-gui'));
+    globalShortcut.register("F3",()=>handle('$api-driver'));
     console.log("opened!");
 })
 // 默认是退出应用,需要显式写出来

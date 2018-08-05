@@ -5,6 +5,9 @@ module.exports =  {
     messageBox(message,title){
         child_process.execSync(`wscript ./src/vbs/messageBox.vbs ${message} ${title}`);
     },
+    copy(){
+        child_process.execSync(`wscript ./src/vbs/copy.vbs`);
+    },
     backout(str){
         this.sendKeys("^{z}")
         str&&this.output(str);
