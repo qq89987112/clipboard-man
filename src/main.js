@@ -1,8 +1,6 @@
 const {app,clipboard,globalShortcut,Notification} = require('electron')
 const child_process = require('child_process');
-const handle = require("./handle");
-
-
+const handle = require("./handle")();
 
 
 app.on("ready",()=>{

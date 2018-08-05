@@ -2,6 +2,8 @@ const fs = require("fs");
 const path = require("path");
 
 module.exports = {
+
+
     /**
      *  用于从剪贴板的模板代码中生成系统的template文件
      *  params = [
@@ -90,31 +92,38 @@ return {
     compilePath(path,params={}){
         return this.compile(fs.readFileSync(path),params);
     },
-    demoPath(filePath){
+    directiveDemoPath(filePath){
         let template = this.converTextToTemplate(fs.readFileSync(filePath));
         let parameters = template.parameters;
         // JSON.stringify(Object.entries(parameters).map(i => i[0]));
         return `${path.basename(filePath,".js")}?${Object.entries(parameters).map(i => {
-            let example = '';
-            let key = i[0];
-            if (key !== 'rest') {
-                switch (i[1]) {
-                    case Array:
-                        example = `${key}=1,2,3,4`;
-                        break;
-                    case String:
-                        example = `${key}=${key}`;
-                        break;
-                    default:
-                        break;
-                }
+            let demoValues = {
+                [Array]:`${key}=1,2,3,4`,
+                [String]:`${key}=${key}`,
             }
-            return example;
+            return i[0] == 'rest' ? '' : demoValues[i[1]];
         }).filter(i => i).join("&")}`;
 
     },
     // 拿不到 commandName
     // demo(templateText){
       
-    // }
+    // },
+    demoPath(filePath){
+        let fileContent = fs.readFileSync(filePath);
+        let template = this.converTextToTemplate(fileContent);
+        let parameters = template.parameters;
+        parameters = Object.entries(parameters).reduce((total,cur)=> {
+            let demoValues = {
+                [Array]:['1','2','3','4'],
+                [String]:`something-here`,
+                // 'rest':''
+            }
+            ;
+            total[cur[0]] = demoValues[cur[1]]||'';
+            return total;
+        },{})
+
+        return this.compile(fileContent,parameters);
+    }
 }
