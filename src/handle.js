@@ -13,7 +13,7 @@ const path = require("path");
  *              options
  */
 let handle = function (context = keyboard) {
-    let {output,options} = context;
+    
     let directiveContext = Object.assign({},context,{$handle:handle})
     return commandLine => {
         // 2018-05-11
@@ -197,7 +197,7 @@ let handle = function (context = keyboard) {
                     promise,
                     addr;
                 if (addrs.length > 1) {
-                    promise = options('有多个地址,请选择其中一个', addrs).then(selects => addrs[selects[0]])
+                    promise = context.options('有多个地址,请选择其中一个', addrs).then(selects => addrs[selects[0]])
                 } else {
                     addr = addrs[0];
                     promise = Promise.resolve(addr);
@@ -212,7 +212,7 @@ let handle = function (context = keyboard) {
                         let parameters = template.parameters;
 
                         if (commandParams.modifier === 'demo') {
-                            return output(templateMaker.directiveDemoPath(addr));
+                            return context.output(templateMaker.directiveDemoPath(addr));
                         }
 
                         let templateParams = {
@@ -233,18 +233,18 @@ let handle = function (context = keyboard) {
 
                             }
                         });
-                        output(result.trim());
+                        context.output(result.trim());
                     } catch (e) {
                         console.error(e);
-                        output(e.message);
+                        context.output(e.message);
                     }
                 })
             } else {
-                output(`找不到命令：${commandName}`)
+                context.output(`找不到命令：${commandName}`)
             }
         } catch (e) {
             console.error(e);
-            output(e.message);
+            context.output(e.message);
         }
     }
 };
